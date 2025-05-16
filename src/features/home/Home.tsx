@@ -2,18 +2,15 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
 	Heart,
-	Music,
 	Flower,
 	Star,
 	Calendar,
 	Clock,
 	Sparkles,
-	Gift,
 	MessageCircle,
 	HeartHandshake,
 	Crown,
 	Diamond,
-	HeartOff,
 } from "lucide-react";
 import "./Home.css";
 
@@ -23,10 +20,8 @@ const MASTER_KEY = import.meta.env.VITE_X_MASTER_KEY;
 
 const Home = () => {
 	const [showContent, setShowContent] = useState(false);
-	const [isPlaying, setIsPlaying] = useState(true);
 	const [showModal, setShowModal] = useState(false);
 	const [showLoveMessage, setShowLoveMessage] = useState(false);
-	const [showConfetti, setShowConfetti] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [timeTogether, setTimeTogether] = useState({
 		months: 0,
@@ -176,8 +171,6 @@ const Home = () => {
 		const drawHeart = () => {
 			if (!ctx) return;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-			const time = Date.now() * 0.001;
 			const centerX = canvas.width / 2;
 			const centerY = canvas.height / 2;
 			const size = Math.min(canvas.width, canvas.height) * 0.2;

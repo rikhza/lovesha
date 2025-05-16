@@ -493,8 +493,8 @@
 	gap: 1rem;
 	z-index: 10;
 	border: 1px solid rgba(236, 72, 153, 0.1);
-	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
 }
 
 .love-message-popup.top {
@@ -667,8 +667,8 @@
 	gap: 2rem;
 	z-index: 5;
 	border: 1px solid rgba(236, 72, 153, 0.1);
-	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
 }
 
 .counter-item {

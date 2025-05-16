@@ -495,42 +495,29 @@ const Birthday = () => {
 										perspective: "1000px",
 									}}
 								>
-									<div
-										className="w-full h-40 sm:h-48 bg-gradient-to-b from-pink-200 to-pink-100 rounded-t-full overflow-hidden border-2 border-pink-300 relative shadow-xl"
-										style={{ transform: "translateZ(0px)" }}
-									>
-										{/* Metallic shine effect */}
-										<div
-											className="absolute inset-0 bg-gradient-to-tr from-transparent via-white to-transparent opacity-30"
-											style={{
-												animation:
-													"shine 3s linear infinite",
-												backgroundSize: "200% 100%",
-											}}
-										></div>
+									<div className="bucket-container">
+										{/* Bucket base */}
+										<div className="bucket-base"></div>
+
 										{/* Bucket pattern */}
-										<div className="absolute inset-0 opacity-20">
+										<div className="bucket-pattern">
 											{[...Array(8)].map((_, i) => (
 												<div
 													key={i}
-													className="absolute w-full h-1 bg-pink-300"
-													style={{
-														top: `${i * 12}%`,
-														left: "-50%",
-														width: "200%",
-														transform: `rotate(${
-															45 + i * 5
-														}deg) translateZ(2px)`,
-													}}
+													className="bucket-pattern-line"
 												/>
 											))}
 										</div>
+
+										{/* Metallic shine effect */}
+										<div className="bucket-shine"></div>
+
 										{/* 3D Flowers */}
-										<div className="absolute inset-0 flex items-center justify-center">
+										<div className="flower-container">
 											{[...Array(5)].map((_, i) => (
 												<motion.div
 													key={i}
-													className="absolute"
+													className="flower"
 													initial={{
 														y: -20,
 														rotateX: 0,
@@ -555,24 +542,16 @@ const Birthday = () => {
 												>
 													<Flower
 														size={32}
-														className={`text-${
+														className={`${
 															i % 2 === 0
-																? "pink"
-																: "purple"
-														}-400 transform hover:scale-110 transition-transform duration-300`}
+																? "flower-pink"
+																: "flower-purple"
+														}`}
 													/>
 												</motion.div>
 											))}
 										</div>
 									</div>
-									{/* Bucket base */}
-									<div
-										className="absolute bottom-0 w-full h-8 bg-gradient-to-b from-pink-300 to-pink-400 rounded-b-full shadow-inner"
-										style={{
-											transform:
-												"rotateX(60deg) translateZ(-10px)",
-										}}
-									></div>
 								</motion.div>
 							)}
 						</AnimatePresence>

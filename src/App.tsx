@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Heart, Gift, Lock } from "lucide-react";
 import Home from "./features/home/Home";
 import Birthday from "./features/birthday/Birthday";
