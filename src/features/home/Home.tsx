@@ -14,9 +14,10 @@ import {
 } from "lucide-react";
 import "./Home.css";
 
-// JSONBin.io configuration from environment variables
-const BIN_ID = import.meta.env.VITE_BIN_ID;
-const MASTER_KEY = import.meta.env.VITE_X_MASTER_KEY;
+// Environment variables configuration
+const BIN_ID = import.meta.env.VITE_BIN_ID || process.env.VITE_BIN_ID;
+const MASTER_KEY =
+	import.meta.env.VITE_X_MASTER_KEY || process.env.VITE_X_MASTER_KEY;
 
 const Home = () => {
 	const [showContent, setShowContent] = useState(false);
