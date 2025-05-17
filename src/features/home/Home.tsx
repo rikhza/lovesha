@@ -491,9 +491,13 @@ const Home = () => {
 										onClick={() => handleLoveClick("zaa")}
 										disabled={isLoading}
 									>
-										<HeartHandshake className="button-icon" />
-										Zaa Love
-										<Sparkles className="button-sparkle" />
+										<div className="button-content">
+											<HeartHandshake className="button-icon" />
+											<span className="button-text">
+												Zaa Love
+											</span>
+											<Sparkles className="button-sparkle" />
+										</div>
 									</motion.button>
 
 									<motion.button
@@ -503,46 +507,15 @@ const Home = () => {
 										onClick={() => handleLoveClick("sha")}
 										disabled={isLoading}
 									>
-										<Heart className="button-icon" />
-										Sha Love
-										<Sparkles className="button-sparkle" />
+										<div className="button-content">
+											<Heart className="button-icon" />
+											<span className="button-text">
+												Sha Love
+											</span>
+											<Sparkles className="button-sparkle" />
+										</div>
 									</motion.button>
 								</div>
-
-								<AnimatePresence>
-									{showLoveMessage && (
-										<motion.div
-											className="love-message-popup"
-											initial={{
-												opacity: 0,
-												scale: 0.8,
-												y: 20,
-											}}
-											animate={{
-												opacity: 1,
-												scale: 1,
-												y: 0,
-											}}
-											exit={{
-												opacity: 0,
-												scale: 0.8,
-												y: -20,
-											}}
-											transition={{
-												type: "spring",
-												stiffness: 300,
-												damping: 20,
-											}}
-										>
-											<Sparkles className="sparkle-icon" />
-											<p>
-												I love you unconditionally, love
-												me back too ya 💖
-											</p>
-											<Heart className="popup-heart" />
-										</motion.div>
-									)}
-								</AnimatePresence>
 
 								<AnimatePresence>
 									{showLoveCounter && (
@@ -552,23 +525,39 @@ const Home = () => {
 											animate={{ opacity: 1, y: 0 }}
 											exit={{ opacity: 0, y: -20 }}
 										>
-											<div className="counter-item">
-												<HeartHandshake className="counter-icon" />
-												<span className="counter-label">
-													Zaa Love
-												</span>
-												<span className="counter-value">
-													{loveCounts.zaa}
-												</span>
-											</div>
-											<div className="counter-item">
-												<Heart className="counter-icon" />
-												<span className="counter-label">
-													Shaa Love
-												</span>
-												<span className="counter-value">
-													{loveCounts.sha}
-												</span>
+											<div className="counter-content">
+												<div className="love-message-section">
+													<Sparkles className="sparkle-icon" />
+													<p className="popup-text">
+														I love you
+														unconditionally, love me
+														back too yaaa 💖
+													</p>
+												</div>
+												<div className="counter-grid">
+													<div className="counter-item">
+														<HeartHandshake className="counter-icon" />
+														<div className="counter-info">
+															<span className="counter-label">
+																Zaa Love
+															</span>
+															<span className="counter-value">
+																{loveCounts.zaa}
+															</span>
+														</div>
+													</div>
+													<div className="counter-item">
+														<Heart className="counter-icon" />
+														<div className="counter-info">
+															<span className="counter-label">
+																Shaa Love
+															</span>
+															<span className="counter-value">
+																{loveCounts.sha}
+															</span>
+														</div>
+													</div>
+												</div>
 											</div>
 										</motion.div>
 									)}
@@ -602,46 +591,97 @@ const Home = () => {
 					<div className="memory-header">
 						<Star className="memory-icon" />
 						<h2>Our Memories</h2>
+						<Star className="memory-icon" />
 					</div>
 					<div className="memory-grid">
 						<motion.article
 							className="memory-card"
-							whileHover={{ scale: 1.05, rotate: 1 }}
+							whileHover={{ scale: 1.02, rotate: 1 }}
 							transition={{ duration: 0.3 }}
 						>
+							<div className="memory-image-container">
+								<img
+									src="/firstdate.jpeg"
+									alt="Our First Date"
+									className="memory-image"
+								/>
+							</div>
 							<h3>First Date 💝</h3>
 							<p>
-								The beginning of our beautiful journey together.
+								The beginning of our beautiful journey together,
+								where our hearts first connected.
 							</p>
 						</motion.article>
 
 						<motion.article
 							className="memory-card"
-							whileHover={{ scale: 1.05, rotate: -1 }}
+							whileHover={{ scale: 1.02, rotate: -1 }}
 							transition={{ duration: 0.3 }}
 						>
+							<div className="memory-image-container">
+								<img
+									src="/ourmoment1.JPG"
+									alt="Our Special Moment"
+									className="memory-image"
+								/>
+							</div>
 							<h3>Special Moments 🌟</h3>
-							<p>Every moment with you is a treasure.</p>
+							<p>
+								Every moment with you is a treasure, filled with
+								love and joy.
+							</p>
 						</motion.article>
 
 						<motion.article
-							className="memory-card"
-							whileHover={{ scale: 1.05, rotate: 1 }}
+							className="memory-card coming-soon"
+							whileHover={{ scale: 1.02, rotate: 1 }}
 							transition={{ duration: 0.3 }}
 						>
+							<div className="memory-image-container">
+								<div className="coming-soon-overlay">
+									<Heart className="coming-soon-heart" />
+									<span className="coming-soon-text">
+										Coming Soon
+									</span>
+									<Sparkles className="coming-soon-sparkle" />
+								</div>
+								<img
+									src="/firstdate.jpeg"
+									alt="Our Dreams"
+									className="memory-image"
+								/>
+							</div>
 							<h3>Our Dreams 💫</h3>
 							<p>
-								Building our future together, one day at a time.
+								Building our future together, one day at a time,
+								with love and hope.
 							</p>
 						</motion.article>
 
 						<motion.article
-							className="memory-card"
-							whileHover={{ scale: 1.05, rotate: -1 }}
+							className="memory-card coming-soon"
+							whileHover={{ scale: 1.02, rotate: -1 }}
 							transition={{ duration: 0.3 }}
 						>
+							<div className="memory-image-container">
+								<div className="coming-soon-overlay">
+									<Heart className="coming-soon-heart" />
+									<span className="coming-soon-text">
+										Coming Soon
+									</span>
+									<Sparkles className="coming-soon-sparkle" />
+								</div>
+								<img
+									src="/ourmoment1.JPG"
+									alt="Forever Love"
+									className="memory-image"
+								/>
+							</div>
 							<h3>Forever Love 💖</h3>
-							<p>My heart belongs to you, now and always.</p>
+							<p>
+								My heart belongs to you, now and always, in
+								every moment we share.
+							</p>
 						</motion.article>
 					</div>
 				</motion.section>
