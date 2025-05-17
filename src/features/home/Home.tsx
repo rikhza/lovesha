@@ -19,6 +19,8 @@ const BIN_ID = import.meta.env.VITE_BIN_ID || process.env.VITE_BIN_ID;
 const MASTER_KEY =
 	import.meta.env.VITE_X_MASTER_KEY || process.env.VITE_X_MASTER_KEY;
 
+console.log(BIN_ID, MASTER_KEY);
+
 const Home = () => {
 	const [showContent, setShowContent] = useState(false);
 	const [showModal, setShowModal] = useState(false);
