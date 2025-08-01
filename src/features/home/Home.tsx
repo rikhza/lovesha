@@ -114,11 +114,6 @@ const Home = () => {
 		);
 	};
 
-	// Load love counts on component mount
-	useEffect(() => {
-		fetchLoveCounts();
-	}, []);
-
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setShowContent(true);
@@ -273,6 +268,10 @@ const Home = () => {
 		setShowLoveMessage(true);
 		setShowLoveCounter(true);
 
+		// First fetch the current counts
+		fetchLoveCounts();
+
+		// Then update with the new count
 		const newCounts = {
 			...loveCounts,
 			[type]: loveCounts[type] + 1,

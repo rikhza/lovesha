@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, Gift, Lock } from "lucide-react";
+import { Heart, Gift, Lock, Crown } from "lucide-react";
 import Home from "./features/home/Home";
 import Birthday from "./features/birthday/Birthday";
+import GirlfriendDay from "./features/girlfriend-day/GirlfriendDay";
 import "./App.css";
 
 function App() {
-	const [currentFeature, setCurrentFeature] = useState<"home" | "birthday">(
-		"home"
-	);
+	const [currentFeature, setCurrentFeature] = useState<
+		"home" | "birthday" | "girlfriend-day"
+	>("home");
 	const [isLocked, setIsLocked] = useState(true);
 	const [pin, setPin] = useState("");
 	const [showError, setShowError] = useState(false);
@@ -19,6 +20,32 @@ function App() {
 		if (unlocked === "true") {
 			setIsLocked(false);
 		}
+
+		// Check if today is August 1st (Girlfriend Day)
+		const today = new Date();
+		const isGirlfriendDay = today.getMonth() === 7 && today.getDate() === 1; // August is month 7 (0-indexed)
+
+		if (isGirlfriendDay) {
+			// Automatically show Girlfriend Day feature on August 1st
+			setTimeout(() => {
+				setCurrentFeature("girlfriend-day");
+			}, 2000); // Show after 2 seconds
+		}
+
+		// Add scroll detection for navigation
+		const handleScroll = () => {
+			const nav = document.querySelector(".nav");
+			if (nav) {
+				if (window.scrollY > 10) {
+					nav.classList.add("scrolled");
+				} else {
+					nav.classList.remove("scrolled");
+				}
+			}
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
 	const handlePinInput = (digit: string) => {
@@ -162,6 +189,17 @@ function App() {
 					<Gift size={20} className="nav-icon" />
 					<span>Birthday 22</span>
 				</motion.button>
+				<motion.button
+					className={`nav-button ${
+						currentFeature === "girlfriend-day" ? "active" : ""
+					}`}
+					onClick={() => setCurrentFeature("girlfriend-day")}
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+				>
+					<Crown size={20} className="nav-icon" />
+					<span>Girlfriend Day</span>
+				</motion.button>
 			</nav>
 
 			<main className="main-content">
@@ -172,7 +210,13 @@ function App() {
 					exit={{ opacity: 0, y: -20 }}
 					transition={{ duration: 0.5 }}
 				>
-					{currentFeature === "home" ? <Home /> : <Birthday />}
+					{currentFeature === "home" ? (
+						<Home />
+					) : currentFeature === "birthday" ? (
+						<Birthday />
+					) : (
+						<GirlfriendDay />
+					)}
 				</motion.div>
 			</main>
 		</div>

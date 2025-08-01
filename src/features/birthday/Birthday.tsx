@@ -270,29 +270,20 @@ const Birthday = () => {
 												selamat ulang tahun ke 22 yaa ❤️
 											</p>
 											<p className="text-gray-800">
-												aku tuh bener-bener bersyukur
-												banget bisa ketemu sama kamu.
-												kamu tuh udah jadi part of me.
-												tiap hari aku makin sayang sama
-												kamu. gak cuma sayang biasa,
-												tapi sayang bangeeettt sampe gak
-												bisa diungkapin pake kata-kata!
-												🥰
+												aku bener-bener bersyukur bisa
+												ketemu sama kamu. kamu udah jadi
+												part of me. tiap hari aku makin
+												sayang.
 											</p>
 											<p className="text-gray-800">
-												aku janji bakal selalu ada buat
-												kamu, aku bakal terus
-												perjuangin. aku gak mau
-												kehilangan kamu. never ever! 💕
-												jadi jangan tinggalin aku yaa
+												aku bakal selalu ada buat kamu,
+												aku bakal terus perjuangin.
 											</p>
 											<p className="text-gray-800">
 												di ulang tahun kamu yang spesial
-												ini, aku cuma bisa doain yang
-												terbaik buat kamu. semoga semua
-												impian dan harapan kamu bisa
-												terwujud ya sayang, apapun wish
-												kamu 🌟
+												ini, semoga semua impian dan
+												harapan kamu bisa terwujud ya
+												sayang, apapun wish kamu 🌟
 											</p>
 											<p className="text-gray-800">
 												I love you to the moon and back!
