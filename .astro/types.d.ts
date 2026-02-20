@@ -1,2 +1,2 @@
 /// <reference types="astro/client" />
-/// <reference types="vite/client" />
+/// <reference path="content.d.ts" />

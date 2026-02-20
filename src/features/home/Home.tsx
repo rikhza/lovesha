@@ -15,11 +15,12 @@ import {
 import "./Home.css";
 
 // Environment variables configuration
-const BIN_ID = import.meta.env.VITE_BIN_ID || process.env.VITE_BIN_ID;
+const BIN_ID =
+	import.meta.env.VITE_BIN_ID ?? import.meta.env.PUBLIC_BIN_ID ?? "";
 const MASTER_KEY =
-	import.meta.env.VITE_X_MASTER_KEY || process.env.VITE_X_MASTER_KEY;
-
-console.log(BIN_ID, MASTER_KEY);
+	import.meta.env.VITE_X_MASTER_KEY ??
+	import.meta.env.PUBLIC_X_MASTER_KEY ??
+	"";
 
 const Home = () => {
 	const [showContent, setShowContent] = useState(false);
@@ -27,6 +28,7 @@ const Home = () => {
 	const [showLoveMessage, setShowLoveMessage] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [timeTogether, setTimeTogether] = useState({
+		years: 0,
 		months: 0,
 		days: 0,
 		hours: 0,
@@ -129,12 +131,14 @@ const Home = () => {
 			const now = new Date();
 			const difference = now.getTime() - startDate.getTime();
 
-			// Calculate months
-			const months =
+			const totalMonths =
 				(now.getFullYear() - startDate.getFullYear()) * 12 +
 				(now.getMonth() - startDate.getMonth());
+			const years = Math.floor(totalMonths / 12);
+			const months = totalMonths % 12;
 
 			setTimeTogether({
+				years,
 				months,
 				days: Math.floor(difference / (1000 * 60 * 60 * 24)),
 				hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
@@ -206,35 +210,45 @@ const Home = () => {
 	}, []);
 
 	const timeUnits = [
+		...(timeTogether.years > 0
+			? [
+					{
+						value: timeTogether.years,
+						label: timeTogether.years === 1 ? "Year" : "Years",
+						icon: Calendar,
+						color: "#ec4899",
+					},
+				]
+			: []),
 		{
 			value: timeTogether.months,
-			label: "Months",
+			label: timeTogether.months === 1 ? "Month" : "Months",
 			icon: Calendar,
-			color: "#ec4899",
+			color: "#db2777",
 		},
 		{
 			value: timeTogether.days,
 			label: "Days",
 			icon: Clock,
-			color: "#db2777",
+			color: "#be185d",
 		},
 		{
 			value: timeTogether.hours,
 			label: "Hours",
 			icon: Clock,
-			color: "#be185d",
+			color: "#9d174d",
 		},
 		{
 			value: timeTogether.minutes,
 			label: "Minutes",
 			icon: Clock,
-			color: "#9d174d",
+			color: "#831843",
 		},
 		{
 			value: timeTogether.seconds,
 			label: "Seconds",
 			icon: Clock,
-			color: "#831843",
+			color: "#6d1036",
 		},
 	];
 

@@ -4,12 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
+		"dev": "astro dev --port 3000",
+		"build": "astro build",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-		"preview": "vite preview"
+		"preview": "astro preview"
 	},
 	"dependencies": {
+		"@astrojs/react": "^4.4.2",
+		"astro": "^5.17.3",
 		"framer-motion": "^11.0.3",
 		"lucide-react": "^0.323.0",
 		"react": "^18.3.1",

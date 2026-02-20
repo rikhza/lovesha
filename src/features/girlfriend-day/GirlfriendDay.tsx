@@ -2,17 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
 	Heart,
-	Flower,
 	Star,
 	Sparkles,
-	MessageCircle,
 	HeartHandshake,
 	Crown,
-	Diamond,
-	Music,
-	Zap,
-	Sun,
-	Moon,
 	Infinity,
 	Target,
 	ArrowRight,
@@ -23,7 +16,6 @@ import "./GirlfriendDay.css";
 const GirlfriendDay = () => {
 	const [currentStep, setCurrentStep] = useState(0);
 	const [showContent, setShowContent] = useState(false);
-	const [isPlaying, setIsPlaying] = useState(false);
 	const [showSpecialMessage, setShowSpecialMessage] = useState(false);
 	const [heartCount, setHeartCount] = useState(0);
 	const [showFinalSurprise, setShowFinalSurprise] = useState(false);
@@ -212,6 +204,29 @@ const GirlfriendDay = () => {
 	}, []);
 
 	useEffect(() => {
+		const hasOverlay =
+			showBucketList || showWelcomeMessage || showFinalSurprise;
+		document.body.style.overflow = hasOverlay ? "hidden" : "";
+
+		const handleEscapeKey = (event: KeyboardEvent) => {
+			if (event.key !== "Escape") return;
+			if (showBucketList) {
+				setShowBucketList(false);
+			} else if (showFinalSurprise) {
+				setShowFinalSurprise(false);
+			} else if (showWelcomeMessage) {
+				setShowWelcomeMessage(false);
+			}
+		};
+
+		window.addEventListener("keydown", handleEscapeKey);
+		return () => {
+			document.body.style.overflow = "";
+			window.removeEventListener("keydown", handleEscapeKey);
+		};
+	}, [showBucketList, showWelcomeMessage, showFinalSurprise]);
+
+	useEffect(() => {
 		// Set up the floating hearts canvas animation
 		const canvas = canvasRef.current;
 		if (!canvas) return;
@@ -343,16 +358,19 @@ const GirlfriendDay = () => {
 	};
 
 	const handleHeartClick = () => {
-		setHeartCount(heartCount + 1);
-		if (heartCount >= 10 && !showSpecialMessage) {
-			setShowSpecialMessage(true);
-			setTimeout(() => setShowSpecialMessage(false), 5000);
-		}
-		if (heartCount >= 100) {
-			// Special achievement unlocked!
-			setShowSpecialMessage(true);
-			setTimeout(() => setShowSpecialMessage(false), 8000);
-		}
+		setHeartCount((prev) => {
+			const newCount = prev + 1;
+			if (newCount >= 10 && !showSpecialMessage) {
+				setShowSpecialMessage(true);
+				setTimeout(() => setShowSpecialMessage(false), 5000);
+			}
+			if (newCount >= 100) {
+				// Special achievement unlocked!
+				setShowSpecialMessage(true);
+				setTimeout(() => setShowSpecialMessage(false), 8000);
+			}
+			return newCount;
+		});
 	};
 
 	const toggleGoalCompletion = (goalId: number) => {
@@ -383,508 +401,375 @@ const GirlfriendDay = () => {
 
 	const currentStepData = steps[currentStep];
 	const Icon = currentStepData.icon;
+	const completionPercentage = getCompletionPercentage();
 
 	return (
-		<div className="girlfriend-day">
-			{/* Floating Hearts Canvas */}
-			<canvas ref={canvasRef} className="floating-hearts-canvas"></canvas>
+		<div className="girlfriend-day gd2-page">
+			<canvas ref={canvasRef} className="floating-hearts-canvas" />
+			<div className="gd2-noise" />
 
-			{/* Main Content */}
 			<motion.div
-				className="girlfriend-day-content"
+				className="girlfriend-day-content gd2-content"
 				initial={{ opacity: 0, y: 20 }}
-				animate={{
-					opacity: showContent ? 1 : 0,
-					y: showContent ? 0 : 20,
-				}}
+				animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
 				transition={{ duration: 1, ease: "easeOut" }}
 			>
-				{/* Step Content */}
-				<motion.section
-					className="step-content"
-					key={currentStep}
-					initial={{ opacity: 0, x: 50 }}
-					animate={{ opacity: 1, x: 0 }}
-					exit={{ opacity: 0, x: -50 }}
-					transition={{ duration: 0.6 }}
-				>
-					<motion.div
-						className="step-card"
-						whileHover={{ scale: 1.02 }}
-						transition={{ duration: 0.3 }}
+				<header className="gd2-hero">
+					<div className="gd2-hero-badge">
+						<Crown size={16} />
+						<span>Girlfriend Day Special</span>
+					</div>
+					<h1>For My Dearest Sha</h1>
+					<p>
+						A little journey of words, promises, and dreams we will
+						make real together.
+					</p>
+					<button
+						className="gd2-love-pill"
+						onClick={handleHeartClick}
+						aria-label="Send love"
 					>
-						<motion.div
-							className="step-icon-container"
-							style={
-								{ "--icon-color": currentStepData.color } as any
-							}
-						>
-							<Icon className="step-icon" />
-							<Sparkles className="step-sparkle" />
-						</motion.div>
+						<Heart size={16} />
+						<span>{heartCount} Love taps</span>
+					</button>
+				</header>
 
-						<motion.h2
-							className="step-title"
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.2 }}
-						>
-							{currentStepData.title}
-						</motion.h2>
+				<motion.section
+					className="gd2-step"
+					key={currentStep}
+					initial={{ opacity: 0, x: 30 }}
+					animate={{ opacity: 1, x: 0 }}
+					exit={{ opacity: 0, x: -30 }}
+					transition={{ duration: 0.5 }}
+				>
+					<article className="gd2-step-card">
+						<div className="gd2-step-top">
+							<div className="gd2-icon-ring">
+								<Icon className="gd2-step-icon" />
+							</div>
+							<div className="gd2-step-meta">
+								<span>{`Step ${currentStep + 1} / ${steps.length}`}</span>
+								<div className="gd2-step-progress">
+									<motion.div
+										className="gd2-step-progress-fill"
+										initial={{ width: 0 }}
+										animate={{
+											width: `${((currentStep + 1) / steps.length) * 100}%`,
+										}}
+										transition={{ duration: 0.4 }}
+									/>
+								</div>
+							</div>
+						</div>
 
-						<motion.p
-							className="step-subtitle"
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.3 }}
-						>
-							{currentStepData.subtitle}
-						</motion.p>
+						<h2>{currentStepData.title}</h2>
+						<h3>{currentStepData.subtitle}</h3>
+						<p>{currentStepData.message}</p>
+					</article>
 
-						<motion.p
-							className="step-message"
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.4 }}
+					<nav className="gd2-nav">
+						<motion.button
+							className="gd2-nav-btn ghost"
+							onClick={handlePrevious}
+							disabled={currentStep === 0}
+							whileTap={{ scale: 0.97 }}
 						>
-							{currentStepData.message}
-						</motion.p>
-					</motion.div>
+							<ArrowLeft size={18} />
+							<span>Previous</span>
+						</motion.button>
+
+						<div className="gd2-indicators">
+							{steps.map((step, index) => (
+								<button
+									key={step.id}
+									type="button"
+									className={`gd2-dot ${
+										index === currentStep ? "active" : ""
+									}`}
+									onClick={() => setCurrentStep(index)}
+									aria-label={`Go to step ${index + 1}`}
+								/>
+							))}
+						</div>
+
+						<motion.button
+							className="gd2-nav-btn solid"
+							onClick={handleNext}
+							whileTap={{ scale: 0.97 }}
+						>
+							<span>
+								{currentStep === steps.length - 1
+									? "Open Surprise"
+									: "Next"}
+							</span>
+							<ArrowRight size={18} />
+						</motion.button>
+					</nav>
 				</motion.section>
 
-				{/* Bucket List Button */}
-				<motion.div
-					className="bucket-list-button-container"
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.7 }}
-				>
-					<motion.button
-						className="bucket-list-button"
-						onClick={() => setShowBucketList(!showBucketList)}
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
+				<section className="gd2-panels">
+					<button
+						className="gd2-bucket-btn"
+						onClick={() => setShowBucketList(true)}
 					>
-						<Target className="bucket-list-icon" />
-						<span>Our Bucket List 💕</span>
-						<Sparkles className="bucket-list-sparkle" />
-					</motion.button>
-				</motion.div>
-
-				{/* Bucket List Modal */}
-				<AnimatePresence>
-					{showBucketList && (
-						<motion.div
-							className="bucket-list-modal"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-						>
-							<motion.div
-								className="bucket-list-content"
-								initial={{ scale: 0.8, y: 50 }}
-								animate={{ scale: 1, y: 0 }}
-								exit={{ scale: 0.8, y: 50 }}
-								transition={{ duration: 0.5, ease: "easeOut" }}
-							>
-								<div className="bucket-list-header">
-									<Crown className="bucket-list-crown" />
-									<h2>Our Bucket List Together 💖</h2>
-									<p>Goals we'll achieve together, Sha!</p>
-									<div className="completion-progress">
-										<div className="progress-bar">
-											<motion.div
-												className="progress-fill"
-												initial={{ width: 0 }}
-												animate={{
-													width: `${getCompletionPercentage()}%`,
-												}}
-												transition={{
-													duration: 1,
-													ease: "easeOut",
-												}}
-											/>
-										</div>
-										<span className="progress-text">
-											{getCompletionPercentage()}%
-											Complete
-										</span>
-									</div>
-								</div>
-
-								<div className="bucket-list-timeline">
-									{bucketListGoals.map((goal, index) => (
-										<motion.div
-											key={goal.id}
-											className={`timeline-item ${
-												goal.status
-											} ${
-												completedGoals.includes(goal.id)
-													? "completed"
-													: ""
-											}`}
-											initial={{
-												opacity: 0,
-												x: index % 2 === 0 ? -50 : 50,
-											}}
-											animate={{ opacity: 1, x: 0 }}
-											transition={{ delay: index * 0.15 }}
-										>
-											<div className="timeline-connector">
-												<div className="timeline-line"></div>
-												<div
-													className="timeline-dot"
-													style={{
-														backgroundColor:
-															goal.color,
-													}}
-												></div>
-											</div>
-
-											<motion.div
-												className="timeline-content"
-												onClick={() =>
-													toggleGoalCompletion(
-														goal.id
-													)
-												}
-												whileHover={{
-													scale: 1.02,
-													y: -5,
-												}}
-												whileTap={{ scale: 0.98 }}
-											>
-												<div className="timeline-header">
-													<div
-														className="goal-icon"
-														style={{
-															backgroundColor:
-																goal.color,
-														}}
-													>
-														<span className="goal-emoji">
-															{goal.icon}
-														</span>
-													</div>
-													<div className="timeline-info">
-														<h3 className="goal-title">
-															{goal.title}
-														</h3>
-														<span className="timeline-date">
-															{goal.date}
-														</span>
-													</div>
-													<div className="goal-checkbox">
-														{completedGoals.includes(
-															goal.id
-														) && (
-															<motion.div
-																className="checkmark"
-																initial={{
-																	scale: 0,
-																}}
-																animate={{
-																	scale: 1,
-																}}
-																transition={{
-																	duration: 0.3,
-																}}
-															>
-																✓
-															</motion.div>
-														)}
-													</div>
-												</div>
-
-												<div className="timeline-body">
-													<p className="goal-description">
-														{goal.description}
-													</p>
-													<div className="timeline-meta">
-														<span className="goal-category">
-															{goal.category}
-														</span>
-														<span className="goal-status">
-															{goal.status.replace(
-																"-",
-																" "
-															)}
-														</span>
-													</div>
-												</div>
-
-												{goal.status ===
-													"completed" && (
-													<motion.div
-														className="completion-badge"
-														initial={{ scale: 0 }}
-														animate={{ scale: 1 }}
-														transition={{
-															delay: 0.5,
-														}}
-													>
-														<Sparkles className="completion-sparkle" />
-														<span>Completed!</span>
-													</motion.div>
-												)}
-											</motion.div>
-										</motion.div>
-									))}
-								</div>
-
-								<motion.button
-									className="close-bucket-list"
-									onClick={() => setShowBucketList(false)}
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
-								>
-									Close Bucket List
-								</motion.button>
-							</motion.div>
-						</motion.div>
-					)}
-				</AnimatePresence>
-
-				{/* Navigation */}
-				<motion.nav
-					className="step-navigation"
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.8 }}
-				>
-					<motion.button
-						className="nav-button prev"
-						onClick={handlePrevious}
-						disabled={currentStep === 0}
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-					>
-						<ArrowLeft size={20} />
-						<span>Previous</span>
-					</motion.button>
-
-					<div className="step-indicators">
-						{steps.map((step, index) => (
-							<motion.div
-								key={step.id}
-								className={`step-indicator ${
-									index === currentStep ? "active" : ""
-								}`}
-								onClick={() => setCurrentStep(index)}
-								whileHover={{ scale: 1.2 }}
-								whileTap={{ scale: 0.9 }}
-							/>
-						))}
+						<div>
+							<Target size={18} />
+							<span>Open Our Bucket List</span>
+						</div>
+						<strong>{completionPercentage}%</strong>
+					</button>
+					<div className="gd2-stats">
+						<div>
+							<HeartHandshake size={16} />
+							<span>{completedGoals.length} goals checked</span>
+						</div>
+						<div>
+							<Sparkles size={16} />
+							<span>{bucketListGoals.length} dreams total</span>
+						</div>
 					</div>
+				</section>
+			</motion.div>
 
-					<motion.button
-						className="nav-button next"
-						onClick={handleNext}
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
+			<AnimatePresence>
+				{showBucketList && (
+					<motion.div
+						className="gd2-overlay"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						onClick={() => setShowBucketList(false)}
 					>
-						<span>
-							{currentStep === steps.length - 1
-								? "Surprise"
-								: "Next"}
-						</span>
-						<ArrowRight size={20} />
-					</motion.button>
-				</motion.nav>
-
-				{/* Special Message */}
-				<AnimatePresence>
-					{showSpecialMessage && (
 						<motion.div
-							className="special-message"
-							initial={{ opacity: 0, scale: 0.8 }}
-							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.8 }}
+							className="gd2-panel"
+							initial={{ y: 30, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: 30, opacity: 0 }}
+							onClick={(event) => event.stopPropagation()}
 						>
-							<Heart className="special-heart" />
+							<div className="gd2-panel-head">
+								<div>
+									<h2>Our Bucket List Together</h2>
+									<p>Tap any card to mark progress.</p>
+								</div>
+								<button
+									className="gd2-close"
+									onClick={() => setShowBucketList(false)}
+									aria-label="Close bucket list"
+								>
+									×
+								</button>
+							</div>
+
+							<div className="gd2-progress-row">
+								<div className="gd2-progress-bar">
+									<motion.div
+										className="gd2-progress-fill"
+										initial={{ width: 0 }}
+										animate={{
+											width: `${completionPercentage}%`,
+										}}
+									/>
+								</div>
+								<span>{completionPercentage}% complete</span>
+							</div>
+
+							<div className="gd2-goals-grid">
+								{bucketListGoals.map((goal) => {
+									const checked = completedGoals.includes(
+										goal.id
+									);
+									return (
+										<motion.article
+											key={goal.id}
+											className={`gd2-goal ${
+												checked ? "done" : ""
+											}`}
+											onClick={() =>
+												toggleGoalCompletion(goal.id)
+											}
+											onKeyDown={(event) => {
+												if (
+													event.key === "Enter" ||
+													event.key === " "
+												) {
+													event.preventDefault();
+													toggleGoalCompletion(goal.id);
+												}
+											}}
+											tabIndex={0}
+											role="button"
+											whileHover={{ y: -2 }}
+										>
+											<div
+												className="gd2-goal-icon"
+												style={{
+													backgroundColor: goal.color,
+												}}
+											>
+												{goal.icon}
+											</div>
+											<div className="gd2-goal-main">
+												<h4>{goal.title}</h4>
+												<p>{goal.description}</p>
+											</div>
+											<div className="gd2-goal-meta">
+												<span>{goal.date}</span>
+												<em>{goal.category}</em>
+											</div>
+											<div className="gd2-check">
+												{checked ? "✓" : ""}
+											</div>
+										</motion.article>
+									);
+								})}
+							</div>
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			<AnimatePresence>
+				{showSpecialMessage && (
+					<motion.div
+						className="gd2-toast"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 20 }}
+					>
+						<Heart size={18} />
+						<p>
+							{completedGoals.length === bucketListGoals.length
+								? "All goals checked! We are unstoppable together. 💖"
+								: heartCount >= 100
+								? "100 love taps unlocked! You are my forever favorite. 👑"
+								: "I love you endlessly, Sha! 💖"}
+						</p>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			<AnimatePresence>
+				{showWelcomeMessage && (
+					<motion.div
+						className="gd2-overlay"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						onClick={() => setShowWelcomeMessage(false)}
+					>
+						<motion.div
+							className="gd2-panel gd2-panel-center"
+							initial={{ scale: 0.95, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0.95, opacity: 0 }}
+							onClick={(event) => event.stopPropagation()}
+						>
+							<button
+								className="gd2-close"
+								onClick={() => setShowWelcomeMessage(false)}
+								aria-label="Close welcome message"
+							>
+								×
+							</button>
+							<Crown className="gd2-crown" />
+							<h2>Happy Girlfriend Day, Sha! 👑</h2>
 							<p>
-								{completedGoals.length ===
-								bucketListGoals.length
-									? "🎉 Congratulations Sha! We've completed all our bucket list goals together! Our future is bright and full of love! 💖✨👑"
-									: heartCount >= 100
-									? "You've clicked 100 hearts! You truly are my everything, Sha! I love you beyond measure! 💖✨👑"
-									: "I love you endlessly, Sha! 💖"}
+								Today is all about you, my love. You deserve all
+								the love in the world.
 							</p>
-							<Sparkles className="special-sparkle" />
-							{heartCount >= 100 && (
-								<motion.div
-									className="achievement-badge"
-									initial={{ scale: 0, rotate: 0 }}
-									animate={{ scale: 1, rotate: 360 }}
+							<button
+								className="gd2-primary"
+								onClick={() => setShowWelcomeMessage(false)}
+							>
+								Start My Special Day
+							</button>
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			<AnimatePresence>
+				{showFinalSurprise && (
+					<motion.div
+						className="gd2-overlay"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						onClick={() => setShowFinalSurprise(false)}
+					>
+						<motion.div
+							className="gd2-panel gd2-panel-center"
+							initial={{ scale: 0.95, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0.95, opacity: 0 }}
+							onClick={(event) => event.stopPropagation()}
+						>
+							<button
+								className="gd2-close"
+								onClick={() => setShowFinalSurprise(false)}
+								aria-label="Close final surprise"
+							>
+								×
+							</button>
+							<Crown className="gd2-crown" />
+							<h2>One More Gift For You</h2>
+							<div className="gd2-flower-row">
+								<motion.span
+									animate={{ y: [-4, 4, -4] }}
 									transition={{
-										duration: 0.8,
-										ease: "easeOut",
+										duration: 3,
+										repeat: Number.POSITIVE_INFINITY,
 									}}
 								>
-									<Crown className="achievement-crown" />
-									<span>Love Master! 👑</span>
-								</motion.div>
-							)}
-						</motion.div>
-					)}
-				</AnimatePresence>
-
-				{/* Welcome Message */}
-				<AnimatePresence>
-					{showWelcomeMessage && (
-						<motion.div
-							className="welcome-message"
-							initial={{ opacity: 0, scale: 0.8 }}
-							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.8 }}
-						>
-							<motion.div
-								className="welcome-content"
-								initial={{ y: 50 }}
-								animate={{ y: 0 }}
-								transition={{ duration: 0.8, ease: "easeOut" }}
-							>
-								<Crown className="welcome-crown" />
-								<h2>Happy Girlfriend Day, Sha! 👑</h2>
-								<p>
-									Today is all about you, my love. You deserve
-									all the love in the world! 💖
-								</p>
-								<motion.button
-									className="welcome-button"
-									onClick={() => setShowWelcomeMessage(false)}
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									🌸
+								</motion.span>
+								<motion.span
+									animate={{ y: [4, -4, 4] }}
+									transition={{
+										duration: 3.2,
+										repeat: Number.POSITIVE_INFINITY,
+									}}
 								>
-									Start My Special Day ✨
-								</motion.button>
-							</motion.div>
+									🌹
+								</motion.span>
+								<motion.span
+									animate={{ y: [-3, 5, -3] }}
+									transition={{
+										duration: 3.4,
+										repeat: Number.POSITIVE_INFINITY,
+									}}
+								>
+									🌺
+								</motion.span>
+								<motion.span
+									animate={{ y: [5, -3, 5] }}
+									transition={{
+										duration: 3.6,
+										repeat: Number.POSITIVE_INFINITY,
+									}}
+								>
+									🌷
+								</motion.span>
+								<motion.span
+									animate={{ y: [-2, 6, -2] }}
+									transition={{
+										duration: 3.8,
+										repeat: Number.POSITIVE_INFINITY,
+									}}
+								>
+									🌼
+								</motion.span>
+							</div>
+							<p>
+								These flowers represent my endless love for you,
+								now and always.
+							</p>
+							<p className="gd2-sign">With love, Riza</p>
 						</motion.div>
-					)}
-				</AnimatePresence>
-
-				{/* Final Surprise */}
-				<AnimatePresence>
-					{showFinalSurprise && (
-						<motion.div
-							className="final-surprise"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-						>
-							<motion.div
-								className="surprise-content"
-								initial={{ scale: 0.8, y: 50 }}
-								animate={{ scale: 1, y: 0 }}
-								transition={{ duration: 0.8, ease: "easeOut" }}
-							>
-								<Crown className="surprise-crown" />
-								<div className="surprise-hearts">
-									{[...Array(3)].map((_, i) => (
-										<motion.div
-											key={i}
-											className="surprise-heart"
-											initial={{ scale: 0, rotate: 0 }}
-											animate={{ scale: 1, rotate: 360 }}
-											transition={{
-												delay: i * 0.1,
-												duration: 0.5,
-												ease: "easeOut",
-											}}
-										>
-											<Heart className="heart-icon" />
-										</motion.div>
-									))}
-								</div>
-								<div className="virtual-gift-section">
-									<h3>Virtual Flower Gift for You 🌸</h3>
-									<div className="flower-bouquet">
-										<motion.div
-											className="flower flower-1"
-											animate={{
-												y: [-5, 5, -5],
-												rotate: [0, 5, 0],
-											}}
-											transition={{
-												duration: 3,
-												repeat: Infinity,
-												ease: "easeInOut",
-											}}
-										>
-											🌸
-										</motion.div>
-										<motion.div
-											className="flower flower-2"
-											animate={{
-												y: [5, -5, 5],
-												rotate: [0, -5, 0],
-											}}
-											transition={{
-												duration: 3.5,
-												repeat: Infinity,
-												ease: "easeInOut",
-											}}
-										>
-											🌹
-										</motion.div>
-										<motion.div
-											className="flower flower-3"
-											animate={{
-												y: [-3, 7, -3],
-												rotate: [0, 3, 0],
-											}}
-											transition={{
-												duration: 2.8,
-												repeat: Infinity,
-												ease: "easeInOut",
-											}}
-										>
-											🌺
-										</motion.div>
-										<motion.div
-											className="flower flower-4"
-											animate={{
-												y: [7, -3, 7],
-												rotate: [0, -3, 0],
-											}}
-											transition={{
-												duration: 3.2,
-												repeat: Infinity,
-												ease: "easeInOut",
-											}}
-										>
-											🌷
-										</motion.div>
-										<motion.div
-											className="flower flower-5"
-											animate={{
-												y: [-4, 6, -4],
-												rotate: [0, 4, 0],
-											}}
-											transition={{
-												duration: 3.7,
-												repeat: Infinity,
-												ease: "easeInOut",
-											}}
-										>
-											🌼
-										</motion.div>
-									</div>
-									<p className="gift-message">
-										These virtual flowers represent my
-										endless love for you ✨
-									</p>
-									<div className="gift-signature">
-										With all my love,
-										<br />
-										<span>Riza</span>
-									</div>
-								</div>
-							</motion.div>
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };
