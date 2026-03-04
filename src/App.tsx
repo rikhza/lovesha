@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, Gift, Lock, Crown } from "lucide-react";
+import { Heart, Gift, Lock, Crown, Sparkles } from "lucide-react";
 import Home from "./features/home/Home";
 import Birthday from "./features/birthday/Birthday";
+import Birthday23 from "./features/birthday23/Birthday23";
 import GirlfriendDay from "./features/girlfriend-day/GirlfriendDay";
 import "./App.css";
 
 function App() {
 	const [currentFeature, setCurrentFeature] = useState<
-		"home" | "birthday" | "girlfriend-day"
+		"home" | "birthday" | "birthday23" | "girlfriend-day"
 	>("home");
 	const [isLocked, setIsLocked] = useState(true);
 	const [pin, setPin] = useState("");
@@ -18,16 +19,14 @@ function App() {
 	useEffect(() => {
 		// Check if today is August 1st (Girlfriend Day)
 		const today = new Date();
-		const isGirlfriendDay = today.getMonth() === 7 && today.getDate() === 1; // August is month 7 (0-indexed)
+		const isGirlfriendDay = today.getMonth() === 7 && today.getDate() === 1;
 
 		if (isGirlfriendDay) {
-			// Automatically show Girlfriend Day feature on August 1st
 			setTimeout(() => {
 				setCurrentFeature("girlfriend-day");
-			}, 2000); // Show after 2 seconds
+			}, 2000);
 		}
 
-		// Add scroll detection for navigation
 		const handleScroll = () => {
 			const nav = document.querySelector(".nav");
 			if (nav) {
@@ -104,7 +103,6 @@ function App() {
 				handlePinInput(event.key);
 				return;
 			}
-
 			if (event.key === "Backspace" || event.key === "Delete") {
 				handleDelete();
 			}
@@ -227,39 +225,64 @@ function App() {
 	return (
 		<div className="app">
 			<nav className="nav">
-				<motion.button
-					className={`nav-button ${
-						currentFeature === "home" ? "active" : ""
-					}`}
-					onClick={() => setCurrentFeature("home")}
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-				>
-					<Heart size={20} className="nav-icon" />
-					<span>Love Story</span>
-				</motion.button>
-				<motion.button
-					className={`nav-button ${
-						currentFeature === "birthday" ? "active" : ""
-					}`}
-					onClick={() => setCurrentFeature("birthday")}
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-				>
-					<Gift size={20} className="nav-icon" />
-					<span>Birthday 22</span>
-				</motion.button>
-				<motion.button
-					className={`nav-button ${
-						currentFeature === "girlfriend-day" ? "active" : ""
-					}`}
-					onClick={() => setCurrentFeature("girlfriend-day")}
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-				>
-					<Crown size={20} className="nav-icon" />
-					<span>Girlfriend Day</span>
-				</motion.button>
+				<div className="nav-brand">
+					<Heart size={15} fill="#ec4899" className="nav-brand-heart" />
+					<span>lovesha</span>
+				</div>
+
+				<div className="nav-items">
+					<motion.button
+						className={`nav-button ${
+							currentFeature === "home" ? "active" : ""
+						}`}
+						onClick={() => setCurrentFeature("home")}
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
+					>
+						<Heart size={18} className="nav-icon" />
+						<span className="nav-label">Love Story</span>
+						<span className="nav-label-short">Love</span>
+					</motion.button>
+
+					<motion.button
+						className={`nav-button ${
+							currentFeature === "birthday" ? "active" : ""
+						}`}
+						onClick={() => setCurrentFeature("birthday")}
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
+					>
+						<Gift size={18} className="nav-icon" />
+						<span className="nav-label">Birthday 22</span>
+						<span className="nav-label-short">B'22</span>
+					</motion.button>
+
+					<motion.button
+						className={`nav-button ${
+							currentFeature === "birthday23" ? "active" : ""
+						}`}
+						onClick={() => setCurrentFeature("birthday23")}
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
+					>
+						<Sparkles size={18} className="nav-icon" />
+						<span className="nav-label">Birthday 23</span>
+						<span className="nav-label-short">B'23</span>
+					</motion.button>
+
+					<motion.button
+						className={`nav-button ${
+							currentFeature === "girlfriend-day" ? "active" : ""
+						}`}
+						onClick={() => setCurrentFeature("girlfriend-day")}
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
+					>
+						<Crown size={18} className="nav-icon" />
+						<span className="nav-label">Girlfriend Day</span>
+						<span className="nav-label-short">GF Day</span>
+					</motion.button>
+				</div>
 			</nav>
 
 			<main className="main-content">
@@ -274,6 +297,8 @@ function App() {
 						<Home />
 					) : currentFeature === "birthday" ? (
 						<Birthday />
+					) : currentFeature === "birthday23" ? (
+						<Birthday23 />
 					) : (
 						<GirlfriendDay />
 					)}
