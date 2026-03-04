@@ -1,0 +1,495 @@
+.bday23-container {
+	font-family: "Poppins", sans-serif;
+	color: #1f2937;
+	overflow-x: hidden;
+}
+
+.bday23-music-btn {
+	position: fixed;
+	top: 5rem;
+	right: 1rem;
+	z-index: 50;
+	background: linear-gradient(135deg, #f59e0b, #ec4899);
+	color: white;
+	padding: 0.6rem;
+	border-radius: 9999px;
+	border: none;
+	cursor: pointer;
+	box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4);
+	transition: all 0.3s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bday23-music-btn:hover {
+	transform: translateY(-2px) scale(1.08);
+	box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5);
+}
+
+/* ---- CONTENT AREA ---- */
+.bday23-content {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(
+		135deg,
+		#fffbf0 0%,
+		#fef9ec 20%,
+		#fce7f3 60%,
+		#f3e8ff 100%
+	);
+	padding: 2rem 1rem 4rem;
+}
+
+.bday23-wrapper {
+	width: 100%;
+	max-width: 520px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 1;
+}
+
+/* ---- ENVELOPE CARD ---- */
+.bday23-envelope {
+	position: relative;
+	max-width: 300px;
+	margin: 1rem auto;
+	aspect-ratio: 3/4;
+	background: linear-gradient(145deg, #fbbf24 0%, #f472b6 55%, #a78bfa 100%);
+	border-radius: 24px;
+	box-shadow: 0 28px 65px rgba(251, 191, 36, 0.3),
+		0 12px 32px rgba(244, 114, 182, 0.2);
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.bday23-envelope-inner {
+	position: absolute;
+	inset: 0;
+	background: rgba(255, 255, 255, 0.07);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	color: white;
+	text-align: center;
+}
+
+.bday23-emoji-main {
+	font-size: 4rem;
+	margin-bottom: 1.2rem;
+	filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.bday23-card-title {
+	font-family: "Playfair Display", serif;
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 0.75rem;
+	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+	line-height: 1.3;
+}
+
+.bday23-card-subtitle {
+	font-size: 0.9rem;
+	opacity: 0.88;
+	letter-spacing: 0.02em;
+}
+
+.bday23-card-bottom {
+	position: absolute;
+	bottom: 1.5rem;
+}
+
+.bday23-deco {
+	position: absolute;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.14);
+}
+
+.deco-tl {
+	width: 100px;
+	height: 100px;
+	top: -32px;
+	left: -32px;
+}
+
+.deco-br {
+	width: 140px;
+	height: 140px;
+	bottom: -42px;
+	right: -38px;
+}
+
+.deco-tr {
+	width: 64px;
+	height: 64px;
+	top: 28px;
+	right: -18px;
+}
+
+/* ---- LETTER ---- */
+.bday23-letter {
+	background: white;
+	border-radius: 28px;
+	box-shadow: 0 24px 70px rgba(236, 72, 153, 0.12),
+		0 8px 28px rgba(251, 191, 36, 0.08);
+	overflow: hidden;
+	margin-bottom: 2.5rem;
+}
+
+.bday23-letter-header {
+	background: linear-gradient(135deg, #fffbf0 0%, #fef3c7 45%, #fce7f3 100%);
+	padding: 2rem 2rem 1.75rem;
+	text-align: center;
+	border-bottom: 1px dashed rgba(236, 72, 153, 0.2);
+}
+
+.bday23-header-emojis {
+	font-size: 2.2rem;
+	letter-spacing: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.bday23-title {
+	font-family: "Playfair Display", serif;
+	font-size: 2rem;
+	color: #be185d;
+	line-height: 1.15;
+	margin-bottom: 0.75rem;
+}
+
+.bday23-title span {
+	display: block;
+	font-size: 1.35rem;
+	color: #f59e0b;
+	font-style: italic;
+}
+
+.bday23-age-circle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	background: linear-gradient(135deg, #f59e0b, #ec4899);
+	color: white;
+	font-size: 1.5rem;
+	font-weight: 700;
+	font-family: "Playfair Display", serif;
+	border-radius: 50%;
+	box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+	margin-top: 0.5rem;
+}
+
+/* Letter body */
+.bday23-letter-body {
+	padding: 2rem;
+}
+
+.bday23-letter-body p {
+	color: #374151;
+	line-height: 1.9;
+	margin-bottom: 1rem;
+	font-size: 0.95rem;
+}
+
+.bday23-letter-body p:first-child {
+	font-weight: 500;
+	color: #9d174d;
+	font-size: 0.98rem;
+}
+
+.bday23-divider {
+	width: 64px;
+	height: 2px;
+	background: linear-gradient(90deg, #f59e0b, #ec4899);
+	border-radius: 9999px;
+	margin: 1.25rem 0;
+}
+
+.bday23-letter-closing {
+	margin-top: 1.5rem;
+	padding-top: 1.25rem;
+	border-top: 1px dashed rgba(236, 72, 153, 0.2);
+}
+
+.bday23-signature {
+	font-size: 1.15rem !important;
+	font-weight: 600 !important;
+	color: #be185d !important;
+	margin-bottom: 0.25rem !important;
+}
+
+.bday23-from {
+	font-style: italic;
+	color: #9d174d !important;
+	font-weight: 500;
+	margin-bottom: 0 !important;
+}
+
+/* ---- CAKE SECTION ---- */
+.bday23-cake-section {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.bday23-cake-section h2 {
+	font-family: "Playfair Display", serif;
+	color: #be185d;
+	font-size: 1.2rem;
+	margin-bottom: 1.75rem;
+}
+
+.bday23-cake-wrap {
+	max-width: 260px;
+	margin: 0 auto;
+	position: relative;
+}
+
+/* Candles */
+.bday23-candles {
+	display: flex;
+	justify-content: center;
+	gap: 1.75rem;
+	position: relative;
+	z-index: 2;
+}
+
+.bday23-candle {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.bday23-candle-body {
+	width: 13px;
+	height: 46px;
+	border-radius: 4px 4px 0 0;
+}
+
+.c-pink {
+	background: linear-gradient(to bottom, #fca5a5, #ef4444);
+}
+.c-amber {
+	background: linear-gradient(to bottom, #fde68a, #f59e0b);
+}
+.c-purple {
+	background: linear-gradient(to bottom, #c4b5fd, #8b5cf6);
+}
+
+.bday23-flame {
+	position: absolute;
+	top: -22px;
+	left: 50%;
+	transform: translateX(-50%);
+	color: #f59e0b;
+	fill: #fbbf24;
+	animation: flicker23 1.5s ease-in-out infinite;
+}
+
+.bday23-flame.extinguished {
+	animation: blow23 0.85s forwards;
+}
+
+@keyframes flicker23 {
+	0%,
+	100% {
+		transform: translateX(-50%) scaleY(1) rotate(-2deg);
+		opacity: 1;
+	}
+	33% {
+		transform: translateX(-50%) scaleY(0.82) rotate(3deg);
+		opacity: 0.88;
+	}
+	66% {
+		transform: translateX(-50%) scaleY(1.12) rotate(-1deg);
+		opacity: 0.95;
+	}
+}
+
+@keyframes blow23 {
+	0% {
+		transform: translateX(-50%) scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(-50%) scale(0) translateY(-12px);
+		opacity: 0;
+	}
+}
+
+/* Cake body */
+.bday23-cake-body {
+	border-radius: 10px 10px 0 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.bday23-cake-layer-top {
+	height: 82px;
+	background: linear-gradient(to bottom, #fde68a, #fbbf24);
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bday23-cake-frosting {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	background: linear-gradient(to bottom, #fce7f3, #fbcfe8);
+}
+
+.bday23-cake-num {
+	font-family: "Playfair Display", serif;
+	font-size: 2.6rem;
+	font-weight: 700;
+	color: #92400e;
+	position: relative;
+	z-index: 1;
+	margin-top: 12px;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bday23-cake-layer-mid {
+	height: 28px;
+	background: linear-gradient(to bottom, #fca5a5, #f87171);
+}
+
+.bday23-cake-layer-bot {
+	height: 22px;
+	background: linear-gradient(to bottom, #fde68a, #fbbf24);
+	border-radius: 0 0 8px 8px;
+}
+
+.bday23-cake-plate {
+	height: 8px;
+	background: #e5e7eb;
+	border-radius: 50%;
+	margin-top: 3px;
+}
+
+/* Blow interaction */
+.bday23-interaction {
+	margin-top: 1.75rem;
+}
+
+.bday23-blow-btn {
+	background: linear-gradient(135deg, #f59e0b, #ec4899);
+	color: white;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	padding: 0.8rem 2.2rem;
+	border-radius: 9999px;
+	border: none;
+	cursor: pointer;
+	font-size: 0.95rem;
+	box-shadow: 0 8px 28px rgba(245, 158, 11, 0.38);
+	transition: all 0.3s;
+}
+
+.bday23-blow-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 34px rgba(245, 158, 11, 0.48);
+}
+
+.bday23-blow-hint {
+	font-size: 0.78rem;
+	color: #9ca3af;
+	margin-top: 0.5rem;
+}
+
+.bday23-mic-active p {
+	font-size: 1rem;
+	color: #ec4899;
+	font-weight: 600;
+	animation: pulse23 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse23 {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.6;
+	}
+}
+
+.bday23-bar {
+	width: 100%;
+	height: 10px;
+	background: #f3f4f6;
+	border-radius: 9999px;
+	margin-top: 0.75rem;
+	overflow: hidden;
+}
+
+.bday23-bar-fill {
+	height: 100%;
+	background: linear-gradient(90deg, #f59e0b, #ec4899);
+	border-radius: 9999px;
+	transition: width 0.3s ease;
+}
+
+.bday23-blown p {
+	font-size: 1.15rem;
+	color: #ec4899;
+	font-weight: 600;
+	margin-top: 1.25rem;
+}
+
+/* ---- FLOATING DECORATIONS ---- */
+.bday23-floats {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.bday23-float {
+	position: absolute;
+	font-size: 1.35rem;
+	user-select: none;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 640px) {
+	.bday23-content {
+		padding: 1.5rem 1rem 3rem;
+	}
+
+	.bday23-music-btn {
+		top: 1rem;
+	}
+
+	.bday23-title {
+		font-size: 1.65rem;
+	}
+
+	.bday23-title span {
+		font-size: 1.2rem;
+	}
+
+	.bday23-letter-body {
+		padding: 1.5rem;
+	}
+
+	.bday23-letter-body p {
+		font-size: 0.9rem;
+	}
+
+	.bday23-letter-header {
+		padding: 1.5rem 1.5rem 1.25rem;
+	}
+}
